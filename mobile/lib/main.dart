@@ -6,6 +6,8 @@ import 'package:latlong2/latlong.dart';
 import 'features/map/map_screen.dart';
 import 'features/events/create_event_screen.dart';
 import 'features/events/event_detail_screen.dart';
+import 'features/auth/login_screen.dart';
+import 'features/profile/profile_screen.dart';
 // import 'firebase_options.dart';
 
 void main() async {
@@ -24,8 +26,16 @@ void main() async {
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/map',
+    initialLocation: '/login',
     routes: [
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
+      ),
       GoRoute(
         path: '/map',
         builder: (context, state) => const MapScreen(),
