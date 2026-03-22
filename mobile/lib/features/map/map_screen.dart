@@ -18,6 +18,12 @@ class MapScreen extends ConsumerWidget {
         title: const Text('Jagat Nairobi'),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => context.push('/profile'),
+          ),
+        ],
       ),
       body: FlutterMap(
         options: MapOptions(
