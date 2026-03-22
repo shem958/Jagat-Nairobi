@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'features/map/map_screen.dart';
 import 'features/events/create_event_screen.dart';
+import 'features/events/event_detail_screen.dart';
 // import 'firebase_options.dart';
 
 void main() async {
@@ -36,6 +37,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return CreateEventScreen(
             initialLocation: location ?? const LatLng(-1.2921, 36.8219),
           );
+        },
+      ),
+      GoRoute(
+        path: '/event/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return EventDetailScreen(eventId: id);
         },
       ),
     ],

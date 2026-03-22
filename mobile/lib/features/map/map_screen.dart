@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'location_provider.dart';
+import '../events/events_provider.dart';
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -11,6 +12,7 @@ class MapScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationAsync = ref.watch(locationProvider);
+    final events = ref.watch(eventsProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Jagat Nairobi'),
@@ -27,15 +29,24 @@ class MapScreen extends ConsumerWidget {
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             userAgentPackageName: 'com.example.jagat_nairobi',
           ),
-          if (locationAsync.valueOrNull != null)
-            MarkerLayer(
-              markers: [
+          MarkerLayer(
+            markers: [
+              if (locationAsync.valueOrNull != null)
                 Marker(
                   point: locationAsync.value!,
                   child: const Icon(Icons.person_pin_circle, color: Colors.blue, size: 40),
                 ),
-              ],
-            ),
+              ...events.map((e) => Marker(
+                point: e.location,
+                child: GestureDetector(
+                  onTap: () {
+                    context.push('/event/${e.id}');
+                  },
+                  child: const Icon(Icons.location_on, color: Colors.red, size: 40),
+                ),
+              )),
+            ],
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
